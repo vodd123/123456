@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>22nd Birthday Celebration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+
+        body {
+            background: #000;
+            color: #0f0;
+            overflow-x: hidden;
+            min-height: 200vh;
+        }
+
+        #matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.8;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 80px 0;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: #0ff;
+            text-shadow: 0 0 15px #0ff, 0 0 30px #0ff;
+            animation: pulse 2s infinite;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #0f0;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); text-shadow: 0 0 20px #0ff, 0 0 40px #0ff; }
+            100% { opacity: 0.7; transform: scale(1); }
+        }
+
+        .section {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #0f0;
+            border-radius: 10px;
+            padding: 40px;
+            margin-bottom: 60px;
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            box-shadow: 0 0 35px rgba(0, 255, 0, 0.5);
+            transform: translateY(-5px);
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #0f0, transparent);
+            animation: scanline 2s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .section h2 {
+            color: #0ff;
+            border-bottom: 1px solid #0f0;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .section h2::before {
+            content: '> ';
+            color: #0f0;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .image-container {
+            border: 1px solid #0f0;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            position: relative;
+        }
+
+        .image-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-container:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.7);
+        }
+
+        .image-container:hover::after {
+            opacity: 1;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: brightness(0.9);
+            transition: filter 0.3s ease;
+        }
+
+        .image-container:hover img {
+            filter: brightness(1.1);
+        }
+
+        .text-content {
+            color: #0f0;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .text-content p {
+            margin-bottom: 20px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .text-content p::before {
+            content: '> ';
+            position: absolute;
+            left: 0;
+            color: #0ff;
+        }
+
+        .highlight {
+            color: #0ff;
+            font-weight: bold;
+            text-shadow: 0 0 8px #0ff;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin: 80px 0;
+        }
+
+        #surprise-btn {
+            background: none;
+            border: 2px solid #0f0;
+            color: #0f0;
+            padding: 18px 45px;
+            font-size: 1.3rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        #surprise-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        #surprise-btn:hover {
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
+            color: #fff;
+            border-color: #0ff;
+        }
+
+        #surprise-btn:hover::before {
+            left: 100%;
+        }
+
+        #surprise-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.97);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            flex-direction: column;
+        }
+
+        #cake {
+            position: relative;
+            width: 320px;
+            height: 280px;
+            margin-top: 30px;
+        }
+
+        .cake-text {
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #0f0;
+    font-size: 32px;
+    font-weight: bold;
+    text-shadow: 0 0 15px rgba(0, 255, 0, 0.8), 0 0 30px rgba(0, 255, 0, 0.5);
+    z-index: 10;
+    animation: pulse 2s infinite alternate;
+}
+
+        @keyframes float {
+            0% { transform: translateX(-50%) translateY(0px); }
+            50% { transform: translateX(-50%) translateY(-15px); }
+            100% { transform: translateX(-50%) translateY(0px); }
+        }
+
+        .firework {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        .stock-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .stock-table th, .stock-table td {
+            border: 1px solid #0f0;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .stock-table th {
+            background-color: rgba(0, 255, 0, 0.1);
+            color: #0ff;
+        }
+
+        .stock-table tr:nth-child(even) {
+            background-color: rgba(0, 255, 0, 0.05);
+        }
+
+        .trophy-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .trophy-item {
+            flex: 1;
+            min-width: 100px;
+            text-align: center;
+            padding: 15px;
+            border: 1px solid #0f0;
+            border-radius: 8px;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .trophy-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #0ff;
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 2.5rem;
+            }
+
+            .section h2 {
+                font-size: 1.8rem;
+            }
+
+            .trophy-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix-bg"></canvas>
+
+    <div class="container">
+        <header>
+            <h1> 祝贺陌枫22岁生日快乐!</h1>
+            <p>祝您度过充满胜利和财务成功的一天！愿您的技能敏锐，您的策略稳健，您的投资组合不断增长。为征服新挑战和达到更高高度的又一年干杯!</p>
+        </header>
+
+        <div class="section">
+            <h2>贪泉团队简介</h2>
+            <div class="content-grid">
+                <div class="image-container">
+                    <img src="./照片/1.jpg" alt="King Team Logo">
+                </div>
+                <div class="text-content">
+                    <p><span class="highlight">团队名称:</span> 贪泉</p>
+                    <!-- <p><span class="highlight">水平:</span> Lv.23 - 贪婪之春</p> -->
+                    <p><span class="highlight">战队战力:</span> 10568 (荣获赛季第一)</p>
+                    <p><span class="highlight">赛季活跃:</span> 742,442 / 800,000 (荣获赛季第一)</p>
+                    <p><span class="highlight">当前排名:</span> 松江15名</p>
+                    <p><span class="highlight">赛季评级:</span> 🌞🌞🌛🌛🌛🌛 </p>
+                </div>
+            </div>
+            <div class="trophy-container">
+                <div class="trophy-item">
+                    <div class="trophy-icon">🏆</div>
+                    <div>突围赛(已晋级)</div>
+                </div>
+                <div class="trophy-item">
+                    <div class="trophy-icon">🏆</div>
+                    <div>区级联赛(已晋级)</div>
+                </div>
+                <div class="trophy-item">
+                    <div class="trophy-icon">🏆</div>
+                    <div>市级联赛(已晋级)</div>
+                </div>
+                <div class="trophy-item">
+                    <div class="trophy-icon">🏆</div>
+                    <div>省级联赛</div>
+                </div>
+                <div class="trophy-item">
+                    <div class="trophy-icon">🏆</div>
+                    <div>全国联赛</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>股票市场概览</h2>
+            <div class="content-grid">
+                <div class="text-content">
+                    <p><span class="highlight">A50指数:</span> 14055.0 (-11.55%)</p>
+                    <p><span class="highlight">开盘:</span> 15880.0 | <span class="highlight">最高价:</span> 16359.0 | <span class="highlight">最低价:</span> 14038.0</p>
+                    <p><span class="highlight">总量:</span> 1.526 万 | <span class="highlight">个人:</span> 1.227 万</p>
+                    <p><span class="highlight">涨幅最大的股票:</span></p>
+                    <table class="stock-table">
+                        <tr><th>股票</th><th>价格</th><th>改变</th></tr>
+                        <tr><td>巴比食品</td><td>18.12</td><td>+10.02%</td></tr>
+                        <tr><td>日盈电子</td><td>24.20</td><td>+10.00%</td></tr>
+                        <tr><td>生益科技</td><td>30.62</td><td>+2.20%</td></tr>
+                    </table>
+                </div>
+                <div class="image-container">
+                    <img src="./照片/83863a59a6063057aaa262121859bd6.jpg" alt="Stock Chart">
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>投资组合持仓</h2>
+            <div class="content-grid">
+                <div class="image-container">
+                    <img src="./照片/5e0c006945d58953f2de8461d9505d5.jpg" alt="Portfolio">
+                </div>
+                <div class="text-content">
+                    <table class="stock-table">
+                        <tr><th>股票</th><th>个股仓位</th><th>持股盈亏</th><th>证劵代码</th></tr>
+                        <tr><td>中信证券</td><td>46.22%</td><td>+0.049%</td><td>600030</td></tr>
+                        <tr><td>邮政储蓄银行</td><td>29.15%</td><td>+0.736%</td><td>601658</td></tr>
+                    </table>
+                    <p><span class="highlight">市场策略:</span> 聚焦科技股回调机会，把握数字化转型主线。</p>
+                    <p><span class="highlight">风险提示:</span> 市场波动性高，控制头寸大小，设置止损水平。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-container">
+            <button id="surprise-btn">打开 Birthday Surprise</button>
+        </div>
+    </div>
+
+    <div id="surprise-container">
+        <div class="cake-text">Happy Birthday</div>
+        <div id="cake"></div>
+    </div>
+
+    <script>
+        // Matrix background effect (International version with English characters)
+        const canvas = document.getElementById('matrix-bg');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let columns;
+        let drops = [];
+        const chars = '01ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            columns = Math.floor(width / 20) + 1;
+            drops = Array(columns).fill(1);
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = '#0f0';
+            ctx.font = '15px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillText(text, i * 20, drops[i] * 20);
+
+                if (drops[i] * 20 > height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 35);
+
+        // Birthday surprise effect
+        const surpriseBtn = document.getElementById('surprise-btn');
+        const surpriseContainer = document.getElementById('surprise-container');
+        const cake = document.getElementById('cake');
+
+        // Create code-generated cake
+        function createCodeCake() {
+            cake.innerHTML = '';
+            const cakeLayers = 3;
+            const layerHeight = 65;
+            const layerWidth = 320;
+
+            // Create cake layers
+            for (let i = 0; i < cakeLayers; i++) {
+                const layer = document.createElement('div');
+                layer.style.position = 'absolute';
+                layer.style.bottom = `${i * layerHeight}px`;
+                layer.style.left = `${i * 25}px`;
+                layer.style.width = `${layerWidth - i * 50}px`;
+                layer.style.height = `${layerHeight}px`;
+                layer.style.backgroundColor = `rgba(0, ${255 - i * 50}, 0, 0.7)`;
+                layer.style.border = '1px solid #0f0';
+                layer.style.borderRadius = '8px';
+                layer.style.boxShadow = '0 0 20px rgba(0, 255, 0, 0.6)';
+                layer.style.display = 'flex';
+                layer.style.alignItems = 'center';
+                layer.style.justifyContent = 'center';
+
+                // Add binary code decoration
+                const codeOverlay = document.createElement('div');
+                codeOverlay.style.position = 'absolute';
+                codeOverlay.style.top = '0';
+                codeOverlay.style.left = '0';
+                codeOverlay.style.width = '100%';
+                codeOverlay.style.height = '100%';
+                codeOverlay.style.overflow = 'hidden';
+
+                for (let j = 0; j < 15; j++) {
+                    for (let k = 0; k < 30; k++) {
+                        const char = document.createElement('span');
+                        char.style.color = `rgba(0, ${255 - Math.random() * 100}, 0, ${0.4 + Math.random() * 0.5})`;
+                        char.style.fontSize = `${8 + Math.random() * 8}px`;
+                        char.style.position = 'absolute';
+                        char.style.left = `${k * 10}px`;
+                        char.style.top = `${j * 8}px`;
+                        char.textContent = Math.random() > 0.5 ? '0' : '1';
+                        codeOverlay.appendChild(char);
+                    }
+                }
+
+                layer.appendChild(codeOverlay);
+                cake.appendChild(layer);
+            }
+
+            // Add cake decorations
+            const decorationCount = 15;
+            for (let i = 0; i < decorationCount; i++) {
+                const decoration = document.createElement('div');
+                decoration.style.position = 'absolute';
+                decoration.style.width = `${5 + Math.random() * 10}px`;
+                decoration.style.height = `${5 + Math.random() * 10}px`;
+                decoration.style.backgroundColor = `hsl(${Math.random() * 120}, 100%, 50%)`;
+                decoration.style.borderRadius = '50%';
+                decoration.style.left = `${50 + Math.random() * 220}px`;
+                decoration.style.bottom = `${Math.random() * 195}px`;
+                decoration.style.boxShadow = '0 0 10px rgba(0, 255, 0, 0.8)';
+                decoration.style.animation = `float ${2 + Math.random() * 3}s infinite ease-in-out`;
+                decoration.style.animationDelay = `${Math.random() * 2}s`;
+                cake.appendChild(decoration);
+            }
+
+            // Add candle
+            const candle = document.createElement('div');
+            candle.style.position = 'absolute';
+            candle.style.top = '-40px';
+            candle.style.left = '50%';
+            candle.style.transform = 'translateX(-50%)';
+            candle.style.width = '12px';
+            candle.style.height = '40px';
+            candle.style.backgroundColor = '#ff3333';
+            candle.style.borderRadius = '3px';
+            candle.style.boxShadow = '0 0 15px rgba(255, 51, 51, 0.8)';
+
+            // Add flame
+            const flame = document.createElement('div');
+            flame.style.position = 'absolute';
+            flame.style.top = '-20px';
+            flame.style.left = '50%';
+            flame.style.transform = 'translateX(-50%)';
+            flame.style.width = '10px';
+            flame.style.height = '20px';
+            flame.style.backgroundColor = '#ffcc00';
+            flame.style.borderRadius = '50%';
+            flame.style.boxShadow = '0 0 15px #ff9900, 0 0 30px #ff6600';
+            flame.style.animation = 'flicker 1s infinite alternate';
+            candle.appendChild(flame);
+
+            cake.appendChild(candle);
+        }
+
+        // Create fireworks
+        function createFireworks() {
+            const container = document.getElementById('surprise-container');
+            const fireworksCount = 40;
+
+            for (let i = 0; i < fireworksCount; i++) {
+    setTimeout(() => {
+        const particleCount = 20; // 每个烟花的粒子数量
+        for (let j = 0; j < particleCount; j++) {
+            const particle = document.createElement('div');
+            particle.className = 'firework';
+            particle.style.position = 'absolute';
+            particle.style.left = `${50}%`; // 从中心开始
+            particle.style.top = `${50}%`;
+            particle.style.transform = 'translate(-50%, -50%)';
+            particle.style.width = `${2 + Math.random() * 4}px`;
+            particle.style.height = `${2 + Math.random() * 4}px`;
+            particle.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            particle.style.borderRadius = '50%';
+            container.appendChild(particle);
+
+            // 随机方向和距离
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 50 + Math.random() * 100;
+            const endX = Math.cos(angle) * distance;
+            const endY = Math.sin(angle) * distance;
+
+            // 爆炸动画
+            setTimeout(() => {
+                particle.style.transition = `all ${0.6 + Math.random() * 0.5}s ease-out`;
+                particle.style.transform = `translate(calc(-50% + ${endX}px), calc(-50% + ${endY}px))`;
+                particle.style.opacity = '0';
+
+                setTimeout(() => particle.remove(), 600);
+            }, 100);
+        }
+    }, i * 200);
+}
+        }
+
+        // Open surprise
+        surpriseBtn.addEventListener('click', () => {
+            surpriseContainer.style.display = 'flex';
+            createCodeCake();
+            createFireworks();
+
+            // Add digital rain effect in surprise container
+            const rainContainer = document.createElement('div');
+            rainContainer.style.position = 'absolute';
+            rainContainer.style.top = '0';
+            rainContainer.style.left = '0';
+            rainContainer.style.width = '100%';
+            rainContainer.style.height = '100%';
+            rainContainer.style.pointerEvents = 'none';
+            surpriseContainer.appendChild(rainContainer);
+
+            // Create digital rain
+            for (let i = 0; i < 100; i++) {
+                const rainColumn = document.createElement('div');
+                rainColumn.style.position = 'absolute';
+                rainColumn.style.left = `${i * 20}px`;
+                rainColumn.style.top = `${-Math.random() * 500}px`;
+                rainColumn.style.color = `rgba(0, ${200 + Math.random() * 55}, 0, ${0.5 + Math.random() * 0.5})`;
+                rainColumn.style.fontFamily = 'monospace';
+                rainColumn.style.fontSize = `${12 + Math.random() * 8}px`;
+                rainColumn.textContent = chars.split('').sort(() => 0.5 - Math.random()).slice(0, 20).join('');
+                rainColumn.style.animation = `fall ${2 + Math.random() * 3}s linear infinite`;
+                rainContainer.appendChild(rainColumn);
+            }
+
+            // Add scanline effect
+            const scanline = document.createElement('div');
+            scanline.style.position = 'absolute';
+            scanline.style.top = '-10%';
+            scanline.style.left = '0';
+            scanline.style.width = '100%';
+            scanline.style.height = '10%';
+            scanline.style.background = 'linear-gradient(to bottom, transparent, rgba(0, 255, 0, 0.3), transparent)';
+            scanline.style.animation = 'scan 2s linear';
+            surpriseContainer.appendChild(scanline);
+
+            setTimeout(() => scanline.remove(), 2000);
+        });
+
+        // Close surprise
+        surpriseContainer.addEventListener('click', (e) => {
+            if (e.target === surpriseContainer) {
+                surpriseContainer.style.display = 'none';
+            }
+        });
+
+        // Add keyframe animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes flicker {
+                0% { transform: translateX(-50%) scale(1); opacity: 0.8; }
+                100% { transform: translateX(-50%) scale(1.3); opacity: 1; }
+            }
+            @keyframes scan {
+                0% { top: -10%; }
+                100% { top: 100%; }
+            }
+            @keyframes fall {
+                0% { transform: translateY(0); }
+                100% { transform: translateY(100vh); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
